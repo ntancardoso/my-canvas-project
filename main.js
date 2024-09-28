@@ -7,6 +7,7 @@ import { Input } from './src/Input';
 import { gridCells } from './src/helpers/grid';
 import { GameObject } from './src/GameObject';
 import { Hero } from './src/objects/Hero/Hero';
+import { events } from './src/Events';
 
 const canvas = document.querySelector("#game-canvas");
 const ctx = canvas.getContext("2d");
@@ -31,6 +32,10 @@ const hero = new Hero(gridCells(6), gridCells(5));
 mainScene.addChild(hero);
 
 mainScene.input = new Input();
+
+events.on("HERO_POSITION", mainScene, heroPosition => {
+  console.log("HERO MOVED", heroPosition)
+});
 
 const update = (delta) => {
   mainScene.stepEntry(delta, mainScene);
