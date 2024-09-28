@@ -9,6 +9,7 @@ export class Sprite {
         frame,
         scale,
         position,
+        animations
     }) {
         this.resource = resource;
         this.frameSize = frameSize ?? new Vector2(16,16);
@@ -18,6 +19,7 @@ export class Sprite {
         this.frameMap = new Map();
         this.scale = scale ?? 1;
         this.position = position ?? new Vector2(0,0);
+        this.animations = animations ?? null;
         this.buildFrameMap();
     }
 
@@ -33,6 +35,15 @@ export class Sprite {
                 frameCount++;
             }
         }
+    }
+
+    step(deltaTime) {
+        if (!this.animations) {
+            return;
+        }
+        this.animations.step(deltaTime);
+        this.frame = this.animations.frame;
+
     }
 
 
