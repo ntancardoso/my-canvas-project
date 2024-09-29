@@ -9,6 +9,7 @@ import { GameObject } from './src/GameObject';
 import { Hero } from './src/objects/Hero/Hero';
 import { Camera } from './src/Camera';
 import { Rod } from './src/objects/Rod/Rod';
+import { Inventory } from './src/objects/Inventory/Inventory';
 
 const canvas = document.querySelector("#game-canvas");
 const ctx = canvas.getContext("2d");
@@ -37,6 +38,13 @@ mainScene.addChild(camera);
 const rod = new Rod(gridCells(7), gridCells(6))
 mainScene.addChild(rod);
 
+const rod2 = new Rod(gridCells(13), gridCells(3))
+mainScene.addChild(rod2);
+
+
+
+const inventory = new Inventory()
+
 mainScene.input = new Input();
 
 const update = (delta) => {
@@ -47,13 +55,15 @@ const update = (delta) => {
 const draw = () => {
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  skySprite.drawImage(ctx, 0, 0)
+  skySprite.drawImage(ctx, 0, 0);
   ctx.save();
-  ctx.translate(camera.position.x, camera.position.y)
+  ctx.translate(camera.position.x, camera.position.y);
 
-  mainScene.draw(ctx, 0, 0)
+  mainScene.draw(ctx, 0, 0);
 
   ctx.restore();
+
+  inventory.draw(ctx, 0, 0);
 }
 
 const gameLoop = new GameLoop(update, draw);
