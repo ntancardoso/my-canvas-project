@@ -8,6 +8,7 @@ import { gridCells } from './src/helpers/grid';
 import { GameObject } from './src/GameObject';
 import { Hero } from './src/objects/Hero/Hero';
 import { Camera } from './src/Camera';
+import { Rod } from './src/objects/Rod/Rod';
 
 const canvas = document.querySelector("#game-canvas");
 const ctx = canvas.getContext("2d");
@@ -32,6 +33,9 @@ mainScene.addChild(hero);
 
 const camera = new Camera();
 mainScene.addChild(camera);
+
+const rod = new Rod(gridCells(7), gridCells(6))
+mainScene.addChild(rod);
 
 mainScene.input = new Input();
 
