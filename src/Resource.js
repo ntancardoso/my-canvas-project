@@ -1,11 +1,16 @@
 class  Resources {
     constructor() {
         this.toLoad = {
-            sky: "/sprites/sky.png",
-            ground: "/sprites/ground.png",
             hero: "/sprites/hero-sheet.png",
             shadow: "/sprites/shadow.png",
             rod: "/sprites/rod.png",
+            exit: "/sprites/exit.png",
+
+            sky: "/sprites/sky.png",
+            ground: "/sprites/ground.png",
+
+            cave: "/sprites/cav.png",
+            caveGround: "/sprites/cave-ground.png",
         }
 
         this.images = {};

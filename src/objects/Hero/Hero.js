@@ -5,7 +5,6 @@ import { GameObject } from "../../GameObject";
 import { gridCells, isSpaceFree } from "../../helpers/grid";
 import { moveTowards } from "../../helpers/moveTowards";
 import { DOWN, LEFT, RIGHT, UP } from "../../Input";
-import { walls } from "../../levels/level1";
 import { resources } from "../../Resource";
 import { Sprite } from "../../Sprite";
 import { Vector2 } from "../../Vector2";
@@ -117,7 +116,7 @@ export class Hero extends GameObject {
     
       this.facingDirection = input.direction ?? this.facingDirection;
     
-      if (isSpaceFree(walls, nextX, nextY)) {
+      if (isSpaceFree(root.level?.walls, nextX, nextY)) {
         this.destinationPosition.x = nextX;
         this.destinationPosition.y = nextY;
       }
