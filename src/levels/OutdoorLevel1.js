@@ -1,3 +1,4 @@
+import { events } from "../Events";
 import { gridCells } from "../helpers/grid";
 import { Exit } from "../objects/Exit/Exit";
 import { Hero } from "../objects/Hero/Hero";
@@ -6,6 +7,7 @@ import { Rod } from "../objects/Rod/Rod";
 import { resources } from "../Resource";
 import { Sprite } from "../Sprite";
 import { Vector2 } from "../Vector2";
+import { CaveLevel1 } from "./CaveLevel1";
 
 export class OutdoorLevel1 extends Level {
     constructor() {
@@ -27,8 +29,7 @@ export class OutdoorLevel1 extends Level {
         
         const hero = new Hero(gridCells(6), gridCells(5));
         this.addChild(hero);
-        
-        
+                
         const rod = new Rod(gridCells(7), gridCells(6))
         this.addChild(rod);
 
@@ -48,7 +49,11 @@ export class OutdoorLevel1 extends Level {
 
     }
 
-
+    ready() {
+        events.on("HERO_EXITS", this, () => {
+            events.emit("CHANGE_LEVEL", new CaveLevel1())
+        })
+    }
 
 }
 

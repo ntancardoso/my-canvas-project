@@ -9,7 +9,7 @@ class  Resources {
             sky: "/sprites/sky.png",
             ground: "/sprites/ground.png",
 
-            cave: "/sprites/cav.png",
+            cave: "/sprites/cave.png",
             caveGround: "/sprites/cave-ground.png",
         }
 

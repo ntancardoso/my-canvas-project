@@ -1,16 +1,8 @@
 import './style.css'
-import { resources } from './src/Resource';
-import { Sprite } from './src/Sprite';
 import { Vector2 } from './src/Vector2';
 import { GameLoop } from './src/GameLoop';
-import { gridCells } from './src/helpers/grid';
-import { Hero } from './src/objects/Hero/Hero';
-import { Camera } from './src/Camera';
-import { Rod } from './src/objects/Rod/Rod';
-import { Exit } from './src/objects/Exit/Exit';
-import { events } from './src/Events';
 import { Main } from './src/objects/Main/Main';
-import { OutdoorLevel1 } from './src/levels/OutdoorLevel1';
+import { CaveLevel1 } from './src/levels/CaveLevel1';
 
 const canvas = document.querySelector("#game-canvas");
 const ctx = canvas.getContext("2d");
@@ -18,11 +10,8 @@ const ctx = canvas.getContext("2d");
 const mainScene = new Main({
   position: new Vector2(0, 0)
 });
-mainScene.setLevel(new OutdoorLevel1());
-
-events.on("HERO_EXITS", mainScene, () => {
-  console.log("Change the map")
-})
+// mainScene.setLevel(new OutdoorLevel1());
+mainScene.setLevel(new CaveLevel1());
 
 const update = (delta) => {
   mainScene.stepEntry(delta, mainScene);
