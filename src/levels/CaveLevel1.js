@@ -3,6 +3,7 @@ import { gridCells } from "../helpers/grid";
 import { Exit } from "../objects/Exit/Exit";
 import { Hero } from "../objects/Hero/Hero";
 import { Level } from "../objects/Level/Level";
+import { Npc } from "../objects/NPC/Npc";
 import { Rod } from "../objects/Rod/Rod";
 import { resources } from "../Resource";
 import { Sprite } from "../Sprite";
@@ -28,12 +29,15 @@ export class CaveLevel1 extends Level {
         const exit = new Exit(gridCells(3), gridCells(5));
         this.addChild(exit);
         
-        this.heroStartPosition = params.heroPosition ?? DEFAULT_HERO_POSITION
+        this.heroStartPosition = params.heroPosition ?? DEFAULT_HERO_POSITION;
         const hero = new Hero(this.heroStartPosition.x, this.heroStartPosition.y);
         this.addChild(hero);
 
-        const rod = new Rod(gridCells(9), gridCells(6))
+        const rod = new Rod(gridCells(9), gridCells(6));
         this.addChild(rod);
+
+        const npc = new Npc(gridCells(5), gridCells(5));
+        this.addChild(npc);
 
         this.walls = new Set();
     }
