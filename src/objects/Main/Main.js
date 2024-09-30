@@ -17,15 +17,20 @@ export class Main extends GameObject {
 
         const inventory = new Inventory()
         this.addChild(inventory)
-        
-        setTimeout(() => {
-            const textbox = new SpriteTextString("Hello! This is a content! Hello! This is a content! Hello! This is a content!")
-            this.addChild(textbox)
-        }, 300)
- 
 
         events.on("CHANGE_LEVEL", this, newLevelInstance => {
             this.setLevel(newLevelInstance)
+        })
+
+        events.on("HERO_REQUEST_ACTION", this, newLevelInstance => {
+            const textbox = new SpriteTextString("Hey hey hey! yohoho!")
+            this.addChild(textbox)
+            events.emit("START_TEXT_BOX")
+
+            const endingSub = events.on("END_TEXT_BOX", this, () => {
+                textbox.destroy();
+                events.off(endingSub);
+            })
         })
     }
 

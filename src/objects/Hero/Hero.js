@@ -4,7 +4,7 @@ import { FrameIndexPattern } from "../../frameIndexPattern";
 import { GameObject } from "../../GameObject";
 import { gridCells, isSpaceFree } from "../../helpers/grid";
 import { moveTowards } from "../../helpers/moveTowards";
-import { DOWN, LEFT, RIGHT, UP } from "../../Input";
+import { DOWN, Input, LEFT, RIGHT, UP } from "../../Input";
 import { resources } from "../../Resource";
 import { Sprite } from "../../Sprite";
 import { Vector2 } from "../../Vector2";
@@ -48,18 +48,39 @@ export class Hero extends GameObject {
         this.destinationPosition = this.position.duplicate();
         this.itemPickupTime = 0;
         this.itemPickupShell = null;
+        this.isLocked = false;
 
         events.on("HERO_PICKS_UP_ITEM", this, data => {
           this.onPickUpItem(data);
         })
     }
 
+    ready() {
+      events.on("START_TEXT_BOX", this, () => {
+        this.isLocked = true;
+      }) 
+      events.on("END_TEXT_BOX", this, () => {
+        this.isLocked = false;
+      })
+    }
+
 
     step(delta, root) {
+
+        if (this.isLocked) {
+          return;
+        }
 
         if (this.itemPickupTime > 0) {
           this.workOnItemPickup(delta);
           return;
+        }
+
+        /** @type {Input} */
+        const input = root.input;
+        if (input?.getActionJustPressed("Space")) {
+          console.log("ACTION")
+          events.emit("HERO_REQUEST_ACTION");
         }
 
         const distance = moveTowards(this, this.destinationPosition, 1)
