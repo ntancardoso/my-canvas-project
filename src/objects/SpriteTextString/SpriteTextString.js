@@ -9,6 +9,9 @@ export class SpriteTextString extends GameObject {
         super({
             position: new Vector2(32, 108)
         });
+
+        this.drawLayer = "HUD";
+
         this.content = str ?? "default content";
         this.words = this.content.split(" ").map(word => {
 
@@ -37,6 +40,19 @@ export class SpriteTextString extends GameObject {
             resource: resources.images.textBox,
             frameSize: new Vector2(256, 64)
         });
+
+        this.showingIndex = 0;
+        this.textSpeed = 80;
+        this.timeUntilNextShow = this.textSpeed;
+    }
+
+    step(delta) {
+        this.timeUntilNextShow -= delta;
+        if (this.timeUntilNextShow <= 0) {
+            this.showingIndex += 1;
+
+            this.timeUntilNextShow = this.textSpeed;
+        }
     }
 
     drawImage(ctx, drawPosX, drawPosY) {
@@ -49,6 +65,7 @@ export class SpriteTextString extends GameObject {
 
         let cursorX = drawPosX + PADDING_LEFT;
         let cursorY = drawPosY + PADDING_TOP;
+        let currentShowingIndex = 0;
 
         this.words.forEach(word => {
             const spaceRemaining = drawPosX + LINE_WIDTH_MAX - cursorX;
@@ -58,11 +75,17 @@ export class SpriteTextString extends GameObject {
             }
 
             word.chars.forEach(char => {
+                if (currentShowingIndex > this.showingIndex) {
+                    return;
+                }
+
                 const {sprite, width} = char;
                 const withCharOffset = cursorX - 5;
                 sprite.draw(ctx, withCharOffset, cursorY)
                 cursorX += width
                 cursorX += 1;
+
+                currentShowingIndex += 1;
             })
             cursorX += 3;
         });
