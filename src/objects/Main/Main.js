@@ -2,6 +2,7 @@ import { Camera } from "../../Camera";
 import { events } from "../../Events";
 import { GameObject } from "../../GameObject";
 import { Input } from "../../Input";
+import { storyFlags } from "../../StoryFlags";
 import { Inventory } from "../Inventory/Inventory";
 import { SpriteTextString } from "../SpriteTextString/SpriteTextString";
 
@@ -22,15 +23,33 @@ export class Main extends GameObject {
             this.setLevel(newLevelInstance)
         })
 
-        events.on("HERO_REQUEST_ACTION", this, newLevelInstance => {
-            const textbox = new SpriteTextString("Hey hey hey! yohoho!")
-            this.addChild(textbox)
-            events.emit("START_TEXT_BOX")
+        events.on("HERO_REQUEST_ACTION", this, (withObject) => {
 
-            const endingSub = events.on("END_TEXT_BOX", this, () => {
-                textbox.destroy();
-                events.off(endingSub);
-            })
+            if (typeof withObject.getContent === "function") {
+                const content = withObject.getContent();
+
+                if (!content) {
+                    return;
+                }
+
+                if (content.addsFlag) {
+                    console.log("ADD FLAG", content.addsFlag)
+                    storyFlags.add(content.addsFlag)
+                }
+
+                const textbox = new SpriteTextString({
+                    portraitFrame: content.portraitFrame,
+                    string: content.string
+                })
+                this.addChild(textbox)
+                events.emit("START_TEXT_BOX")
+    
+                const endingSub = events.on("END_TEXT_BOX", this, () => {
+                    textbox.destroy();
+                    events.off(endingSub);
+                })
+    
+            }
         })
     }
 

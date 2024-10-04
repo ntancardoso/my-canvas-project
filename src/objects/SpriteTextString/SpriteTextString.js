@@ -6,14 +6,14 @@ import { Vector2 } from "../../Vector2";
 import { getCharacterFrame, getCharacterWidth } from "./spriteFontMap";
 
 export class SpriteTextString extends GameObject {
-    constructor(str) {
+    constructor(config = {}) {
         super({
             position: new Vector2(32, 108)
         });
 
         this.drawLayer = "HUD";
 
-        this.content = str ?? "default content";
+        this.content = config.string ?? "default content";
         this.words = this.content.split(" ").map(word => {
 
             let wordWidth = 0;
@@ -41,6 +41,12 @@ export class SpriteTextString extends GameObject {
             resource: resources.images.textBox,
             frameSize: new Vector2(256, 64)
         });
+        console.log(`config ${JSON.stringify(config)}`)
+        this.portrait = new Sprite({
+            resource: resources.images.portraits,
+            hFrames: 4,
+            frame: config.portraitFrame ?? 0
+        })
 
         this.showingIndex = 0;
         this.finalIndex = this.words.reduce((acc, word) => acc + word.chars.length, 0);
@@ -72,8 +78,10 @@ export class SpriteTextString extends GameObject {
     drawImage(ctx, drawPosX, drawPosY) {
         this.backdrop.drawImage(ctx, drawPosX, drawPosY);
 
-        const PADDING_LEFT = 7;
-        const PADDING_TOP = 7;
+        this.portrait.drawImage(ctx, drawPosX + 6, drawPosY + 6)
+
+        const PADDING_LEFT = 27;
+        const PADDING_TOP = 9;
         const LINE_WIDTH_MAX = 240;
         const LINE_VERTICAL_HEIGHT = 14;
 
